@@ -11,7 +11,7 @@ pip install pygame
 
 Para executar o programa:
 ```
-python main.py
+python teste-pygame.py
 ```
 
 ## O que o código faz
