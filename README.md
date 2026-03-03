@@ -25,11 +25,3 @@ Este projeto permite praticar:
 - Pygame  
 
 ---
-
-## Instalação
-
-1. Clone o repositório:
-
-```bash
-git clone https://github.com/vito1309/Desafio-Pygame.git
-cd Desafio-Pygame
