@@ -1,21 +1,35 @@
-# Colisão de Objetos - Pygame
+# Desafio Pygame
 
-Atividade da matéria de Computação Gráfica e Tecnologias Imersivas utilizando Pygame. Nela, dois objetos se movem pela tela, batem nas bordas da tela e colidem entre si, mudando de cor a cada colisão.
+Projeto desenvolvido em **Python** utilizando a biblioteca **Pygame**, com foco na aplicação de conceitos básicos de movimentação e colisão em ambientes gráficos 2D.
 
-## Como executar
+---
 
-Para instalar o Pygame:
-```
-pip install pygame
-```
+## Sobre o Projeto
 
-Para executar o programa:
-```
-python teste-pygame.py
-```
+O programa cria uma janela onde dois objetos se movimentam continuamente pela tela.  
+Eles interagem com as bordas da janela e também entre si, reagindo com mudanças de direção e cor.
 
-## O que o código faz
+Este projeto permite praticar:
 
-- Os dois textos ("VAMO" e "GREMIO") se movem pela tela
-- Ao bater em uma borda, o objeto muda de direção e de cor
-- Ao colidir entre si, os dois objetos trocam de direção e mudam de cor
+- Lógica de programação  
+- Estruturas condicionais  
+- Movimentação nos eixos X e Y  
+- Detecção de colisão  
+- Atualização de tela em tempo real com loop principal  
+
+---
+
+## Tecnologias Utilizadas
+
+- Python 3  
+- Pygame  
+
+---
+
+## Instalação
+
+1. Clone o repositório:
+
+```bash
+git clone https://github.com/vito1309/Desafio-Pygame.git
+cd Desafio-Pygame
