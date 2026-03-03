@@ -79,7 +79,7 @@ while rodando:
     texto2.desenhar(TELA)
 
     pygame.display.flip()
-    clock.tick(512)
+    clock.tick(120)
 
 pygame.quit()
 sys.exit()
