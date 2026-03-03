@@ -4,27 +4,56 @@ import random
 
 pygame.init()
 
-largura = 800
-altura = 600
-tela = pygame.display.set_mode((largura, altura))
-pygame.display.set_caption('Colisão de Objetos')
+LARGURA = 800
+ALTURA = 600
+TELA = pygame.display.set_mode((LARGURA, ALTURA))
+pygame.display.set_caption("Colisão de Objetos")
 
 PRETO = (0, 0, 0)
-
-tamanho_fonte = 50
-fonte = pygame.font.SysFont(None, tamanho_fonte)
-
-texto1 = fonte.render("VAMO", True, (255, 0, 0))
-texto1_rect = texto1.get_rect(x=100, y=100)
-vel_x1 = random.choice([-1, 1])
-vel_y1 = random.choice([-1, 1])
-
-texto2 = fonte.render("GREMIO", True, (0, 255, 0))
-texto2_rect = texto2.get_rect(x=500, y=400)
-vel_x2 = random.choice([-1, 1])
-vel_y2 = random.choice([-1, 1])
+FONTE = pygame.font.SysFont(None, 50)
 
 clock = pygame.time.Clock()
+
+
+class Texto:
+    def __init__(self, mensagem, x, y):
+        self.mensagem = mensagem
+        self.cor = self.cor_aleatoria()
+        self.surface = FONTE.render(self.mensagem, True, self.cor)
+        self.rect = self.surface.get_rect(topleft=(x, y))
+        self.vel_x = random.choice([-3, 3])
+        self.vel_y = random.choice([-3, 3])
+
+    def cor_aleatoria(self):
+        return (
+            random.randint(1, 255),
+            random.randint(1, 255),
+            random.randint(1, 255),
+        )
+
+    def mudar_cor(self):
+        self.cor = self.cor_aleatoria()
+        self.surface = FONTE.render(self.mensagem, True, self.cor)
+
+    def mover(self):
+        self.rect.x += self.vel_x
+        self.rect.y += self.vel_y
+
+    def verificar_parede(self):
+        if self.rect.right >= LARGURA or self.rect.left <= 0:
+            self.vel_x *= -1
+            self.mudar_cor()
+
+        if self.rect.bottom >= ALTURA or self.rect.top <= 0:
+            self.vel_y *= -1
+            self.mudar_cor()
+
+    def desenhar(self, tela):
+        tela.blit(self.surface, self.rect)
+
+
+texto1 = Texto("VAMO", 100, 100)
+texto2 = Texto("GREMIO", 500, 400)
 
 rodando = True
 while rodando:
@@ -32,50 +61,25 @@ while rodando:
         if evento.type == pygame.QUIT:
             rodando = False
 
-    tela.fill(PRETO)
+    TELA.fill(PRETO)
 
-    tela.blit(texto1, texto1_rect)
-    texto1_rect.x += vel_x1
-    texto1_rect.y += vel_y1
+    texto1.mover()
+    texto2.mover()
 
-    if texto1_rect.right >= largura:
-        vel_x1 = -1
-        texto1 = fonte.render("VAMO", True, (random.randint(1,255), random.randint(1,255), random.randint(1,255)))
-    if texto1_rect.left <= 0:
-        vel_x1 = 1
-        texto1 = fonte.render("VAMO", True, (random.randint(1,255), random.randint(1,255), random.randint(1,255)))
-    if texto1_rect.bottom >= altura:
-        vel_y1 = -1
-        texto1 = fonte.render("VAMO", True, (random.randint(1,255), random.randint(1,255), random.randint(1,255)))
-    if texto1_rect.top <= 0:
-        vel_y1 = 1
-        texto1 = fonte.render("VAMO", True, (random.randint(1,255), random.randint(1,255), random.randint(1,255)))
+    texto1.verificar_parede()
+    texto2.verificar_parede()
 
-    tela.blit(texto2, texto2_rect)
-    texto2_rect.x += vel_x2
-    texto2_rect.y += vel_y2
+    if texto1.rect.colliderect(texto2.rect):
+        texto1.vel_x, texto2.vel_x = texto2.vel_x, texto1.vel_x
+        texto1.vel_y, texto2.vel_y = texto2.vel_y, texto1.vel_y
+        texto1.mudar_cor()
+        texto2.mudar_cor()
 
-    if texto2_rect.right >= largura:
-        vel_x2 = -1
-        texto2 = fonte.render("GREMIO", True, (random.randint(1,255), random.randint(1,255), random.randint(1,255)))
-    if texto2_rect.left <= 0:
-        vel_x2 = 1
-        texto2 = fonte.render("GREMIO", True, (random.randint(1,255), random.randint(1,255), random.randint(1,255)))
-    if texto2_rect.bottom >= altura:
-        vel_y2 = -1
-        texto2 = fonte.render("GREMIO", True, (random.randint(1,255), random.randint(1,255), random.randint(1,255)))
-    if texto2_rect.top <= 0:
-        vel_y2 = 1
-        texto2 = fonte.render("GREMIO", True, (random.randint(1,255), random.randint(1,255), random.randint(1,255)))
+    texto1.desenhar(TELA)
+    texto2.desenhar(TELA)
 
-    if texto1_rect.colliderect(texto2_rect):
-        vel_x1, vel_x2 = vel_x2, vel_x1
-        vel_y1, vel_y2 = vel_y2, vel_y1
-        texto1 = fonte.render("VAMO", True, (random.randint(1,255), random.randint(1,255), random.randint(1,255)))
-        texto2 = fonte.render("GREMIO", True, (random.randint(1,255), random.randint(1,255), random.randint(1,255)))
-
-    clock.tick(512)
     pygame.display.flip()
+    clock.tick(60)
 
 pygame.quit()
 sys.exit()
